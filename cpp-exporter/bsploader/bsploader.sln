@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "bsploader", "bsploader\bsploader.vcxproj", "{29378221-F38D-48AB-B5E0-7CB1651E1D28}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3E892CEE-B229-4B05-97B2-51A3801A402E} = {3E892CEE-B229-4B05-97B2-51A3801A402E}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "bspsdk", "bspsdk\bspsdk.vcxproj", "{3E892CEE-B229-4B05-97B2-51A3801A402E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{29378221-F38D-48AB-B5E0-7CB1651E1D28}.Debug|Win32.ActiveCfg = Debug|Win32
+		{29378221-F38D-48AB-B5E0-7CB1651E1D28}.Debug|Win32.Build.0 = Debug|Win32
+		{29378221-F38D-48AB-B5E0-7CB1651E1D28}.Release|Win32.ActiveCfg = Release|Win32
+		{29378221-F38D-48AB-B5E0-7CB1651E1D28}.Release|Win32.Build.0 = Release|Win32
+		{3E892CEE-B229-4B05-97B2-51A3801A402E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{3E892CEE-B229-4B05-97B2-51A3801A402E}.Debug|Win32.Build.0 = Debug|Win32
+		{3E892CEE-B229-4B05-97B2-51A3801A402E}.Release|Win32.ActiveCfg = Release|Win32
+		{3E892CEE-B229-4B05-97B2-51A3801A402E}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
