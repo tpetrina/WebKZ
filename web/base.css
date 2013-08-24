@@ -2,3 +2,31 @@
     margin: 0;
     padding: 0;
 }
+
+#header
+{
+	padding: 5px 10px 7px 10px;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	background: black;
+	color: rgb(2, 153, 255);
+	box-shadow: -1px 3px 5px rgb(33, 33, 33);
+}
+
+#backlink
+{
+	margin: 10px 20px 10px 0px;
+	color: #ED1B24;
+	text-decoration: none;
+}
+#backlink:hover
+{
+	text-decoration: underline;
+	color: white;
+}
+#backlink:visited
+{
+	text-decoration: none;
+	color: #ED1B24;
+}

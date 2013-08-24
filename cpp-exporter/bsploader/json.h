@@ -1,6 +1,9 @@
 #pragma once
 
+#include <sstream>
 #include <ostream>
+#include <memory>
+#include <algorithm>
 
 using namespace std;
 
@@ -113,7 +116,7 @@ struct jsonObject : jsonBase
 		{
 			ss << *properties.front().get();
 			auto begin = properties.begin();
-			for_each(++begin, properties.end(), [&ss](shared_ptr<jsonBase> j) {
+			std::for_each(++begin, properties.end(), [&ss](shared_ptr<jsonBase> j) {
 				ss << ",\n" << *j.get();
 			});
 		}

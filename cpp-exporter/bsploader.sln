@@ -1,12 +1,14 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Windows Desktop
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "bsploader", "bsploader\bsploader.vcxproj", "{29378221-F38D-48AB-B5E0-7CB1651E1D28}"
 	ProjectSection(ProjectDependencies) = postProject
 		{3E892CEE-B229-4B05-97B2-51A3801A402E} = {3E892CEE-B229-4B05-97B2-51A3801A402E}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "bspsdk", "bspsdk\bspsdk.vcxproj", "{3E892CEE-B229-4B05-97B2-51A3801A402E}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenDemo", "OpenDemo\OpenDemo.vcxproj", "{98F2D613-4C2B-420E-8CB5-F50469CF8F8D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -22,6 +24,10 @@ Global
 		{3E892CEE-B229-4B05-97B2-51A3801A402E}.Debug|Win32.Build.0 = Debug|Win32
 		{3E892CEE-B229-4B05-97B2-51A3801A402E}.Release|Win32.ActiveCfg = Release|Win32
 		{3E892CEE-B229-4B05-97B2-51A3801A402E}.Release|Win32.Build.0 = Release|Win32
+		{98F2D613-4C2B-420E-8CB5-F50469CF8F8D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{98F2D613-4C2B-420E-8CB5-F50469CF8F8D}.Debug|Win32.Build.0 = Debug|Win32
+		{98F2D613-4C2B-420E-8CB5-F50469CF8F8D}.Release|Win32.ActiveCfg = Release|Win32
+		{98F2D613-4C2B-420E-8CB5-F50469CF8F8D}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -127,8 +127,8 @@ int main(int argc, char *argv[])
 		//vertices.add(dvertexes[i].point[2]);
 		vertices.add(jsonArray<float>::from(
 			dvertexes[i].point[0],
-			dvertexes[i].point[1],
-			dvertexes[i].point[2]
+			dvertexes[i].point[2],
+			-dvertexes[i].point[1]
 		));
 	}
 	jo.addProperty("vertices", vertices);
@@ -151,7 +151,7 @@ int main(int argc, char *argv[])
 	vector<miptex_t*> textures;
 	for (uint32_t i = 0; i < numTextures; ++i)
 	{
-		miptex_t *tex = (miptex_t*)(dtexdata + textureOffsets[i]);
+		miptex_t *tex = (miptex_t*)(&dtexdata[textureOffsets[i]]);
 		textures.push_back(tex);
 		cout << "texture: '" << tex->name << "'" << endl;
 	}
@@ -227,19 +227,19 @@ int main(int argc, char *argv[])
 			jsonObject face;
 
 			jsonArray<float> faceVertices;
-			faceVertices.add(vs[0], vs[j], vs[j + 1]);
+			faceVertices.add(vs[0], vs[j + 1], vs[j]);
 			face.addProperty("vertices", faceVertices);
 
-			face.addProperty("side", dfaces[i].side);
+			//face.addProperty("side", dfaces[i].side);
 
-			jsonArray<float> faceNormal;
-			faceNormal.add(plane.normal[0], plane.normal[1], plane.normal[2]);
-			face.addProperty("normal", faceNormal);
+			//jsonArray<float> faceNormal;
+			//faceNormal.add(plane.normal[0], plane.normal[1], plane.normal[2]);
+			//face.addProperty("normal", faceNormal);
 
 			jsonArray<float> faceUVs;
 			faceUVs.add(ts[0], ts[1]);
-			faceUVs.add(ts[j * 2], ts[j * 2 + 1]);
 			faceUVs.add(ts[(j + 1) * 2], ts[(j + 1) * 2 + 1]);
+			faceUVs.add(ts[j * 2], ts[j * 2 + 1]);
 			face.addProperty("faceUVs", faceUVs);
 
 			auto index = dfaces[i].texinfo;
@@ -253,7 +253,7 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	jo.addProperty("numfaces", faces.values.size());
+	//jo.addProperty("numfaces", faces.values.size());
 	jo.addProperty("faces", faces);
 
 	jsonOut << jo;

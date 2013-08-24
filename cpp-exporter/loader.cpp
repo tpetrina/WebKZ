@@ -19,8 +19,14 @@ ostream &operator<<(ostream &os, dheader_t const& header)
 	return os;
 }
 
-int main()
-{	
+int main(int argc, char *argv[])
+{
+	if (argc != 2)
+	{
+		cout << "Usage: loader bspfile" << endl;
+		return 0;
+	}
+
 	cout << "Welcome to BSP loader." << endl << endl;
 	ifstream f("nfs_longjump.bsp", ios::in | ios::binary);
 	
