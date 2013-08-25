@@ -1,40 +1,150 @@
-<!DOCTYPE html />
+<!DOCTYPE html>
 <html>
 <head>
     <title>BSP web viewer</title>
     <link rel="stylesheet" type="text/css" href="base.css" />
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">
 </head>
 <body>
     <div id="header">
-        <a id="backlink" href="http://tonicodes.net/blog/">back to blog</a>
-        <span id="map">map: </span> | 
-        <span id="demo">no demo</span> | 
-		<span id="fps">fps: </span>
+        <a id="change">click to change map/demo</a><br />
+        <!--<a id="backlink" href="http://tonicodes.net/blog/">back to blog</a>-->
+        <span id="mapname"></span> |
+        <span id="demoname">no demo</span> |
+        <span id="fps">fps: </span>
     </div>
     <div id="viewer"></div>
+
+    <div id="overlay">
+        <div>
+            <p>Choose map:</p>
+            <ul id="maps"></ul>
+            <br />
+            <p>Choose demo:</p>
+            <ul id="demos"></ul>
+        </div>
+    </div>
 
     <script src="jquery.min.js"></script>
     <script src="three.js"></script>
     <script src="FirstPersonControls.js"></script>
     <script src="bsploader.js"></script>
-    <script src="pathloader.js"></script>
-	<script src="kzhelper.js"></script>
+    <script src="kzhelper.js"></script>
     <script lang="javascript">
         var camera, scene, renderer, controls;
         var clock = new THREE.Clock();
-		var showPath = false;
-		
-		window.addEventListener( 'resize', onWindowResize, false );
+        var showPath = false;
+        var isPlaying = false;
 
-		function onWindowResize(){
+        // list of all maps and demos
+        var maps;
 
-			camera.aspect = window.innerWidth / window.innerHeight;
-			camera.updateProjectionMatrix();
+        window.addEventListener('resize', onWindowResize, false);
 
-			renderer.setSize( window.innerWidth, window.innerHeight );
-		}
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        function overlay() {
+            el = document.getElementById("overlay");
+            el.style.visibility = (el.style.visibility == "visible") ? "hidden" : "visible";
+        }
+
+        function updateUrl(name) {
+            var href = window.location.href;
+            if (href.indexOf("#" != -1))
+                href = href.substr(0, href.indexOf("#"));
+
+            window.location.href = href + "#" + name;
+        }
+
+        function mapsLoaded(data) {
+            maps = data;
+            var mapselement = $("#maps");
+            var demoselement = $("#demos");
+
+            for (var index in maps) {
+                var map = maps[index];
+                $("<li>" + map.name + "</li>")
+                    .attr("data-mapname", map.name)
+                    .click(function (e) {
+                        var name = $(this).attr("data-mapname");
+
+                        load_map(name + ".json");
+                        $("#mapname").text(name);
+
+                        updateUrl(name)
+                        overlay();
+
+                        isPlaying = false;
+
+                        onMapLoad();
+                    })
+                    .appendTo(mapselement);
+
+                for (var index in map.demos) {
+                    var demo = map.demos[index];
+                    $("<li>" + demo.player + " on " + map.name + " " + demo.time + "</li>")
+                        .attr("data-mapname", map.name)
+                        .attr("data-demoname", demo.demo)
+                        .click(function (e) {
+                            var mapname = $(this).attr("data-mapname");
+                            var demoname = $(this).attr("data-demoname");
+                            load_map(mapname + ".json");
+                            load_path(demoname);
+                            $("#mapname").text(mapname);
+                            $("#demoname").text(demoname);
+
+                            currentTime = 0;
+                            isPlaying = true;
+
+                            updateUrl(mapname)
+                            overlay();
+                        })
+                        .appendTo(demoselement);
+                }
+            }
+
+            if (window.location.href.indexOf("#") != -1) {
+                var name = window.location.href.substr(window.location.href.indexOf("#") + 1);
+                load_map(name + ".json");
+                $("#mapname").text(name);
+            }
+            else {
+                // show map picker
+                overlay();
+            }
+        }
+
+        function onMapLoad() {
+            camera.position.x = 1000;
+            camera.position.y = 400;
+            camera.position.z = 1000;
+            camera.lookAt(new THREE.Vector3(0, 0, 0));
+        }
 
         (function init() {
+            $.ajax({
+                url: "maps.json",
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert("Cannot load map list from '" + path + "', error: " + textStatus);
+                },
+                success: mapsLoaded
+            });
+
+            $("#change").click(function (e) {
+                e.preventDefault();
+                overlay();
+            });
+
+            $(window).keydown(function (key) {
+                if (key.keyCode == 27)
+                    overlay();
+            });
+
             scene = new THREE.Scene();
             //scene.fog = new THREE.Fog(0xc0c0c0, 800, 2000);
 
@@ -42,10 +152,8 @@
             scene.add(ambient);
 
             camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 10000);
-            camera.position.x = 1000;
-            camera.position.y = 400;
-            camera.position.z = 1000;
-            camera.lookAt(new THREE.Vector3(0, 0, 0));
+
+            onMapLoad();
             scene.add(camera);
 
             controls = new THREE.FirstPersonControls(camera);
@@ -59,28 +167,9 @@
 
             controls.lon = -110;
 
-            //load_map("nfs_longjump.json");
-            //load_path("path.json");
-			
-            //load_map("kzm_cityhops.json");
-            //load_path("kzm_cityhops_Lolz_0312.97.json");
-
-            load_map("risk_forgeblock.json");
-			$("#map").text("map: risk_forgeblock.json");
-            load_path("risk_forgeblock_kropeq_0408.65.json");
-			$("#demo").text("demo: risk_forgeblock_kropeq_0408.65.json");
-			
-			$("#togglepath").click(function(e) {
-				showPath = !showPath;
-				if (showPath)
-					scene.add(line);
-				else
-					scene.remove(line);
-			});
-
-            addLine([0, 0, 0], [1000, 0, 0], 0xff0000);
-            addLine([0, 0, 0], [0, 1000, 0], 0x00ff00);
-            addLine([0, 0, 0], [0, 0, 1000], 0x0000ff);
+            addLine([0, 0, 0], [100, 0, 0], 0xff0000);
+            addLine([0, 0, 0], [0, 100, 0], 0x00ff00);
+            addLine([0, 0, 0], [0, 0, 100], 0x0000ff);
 
             renderer = new THREE.WebGLRenderer();
             renderer.setSize(window.innerWidth, window.innerHeight);
@@ -117,9 +206,10 @@
             if (controls != undefined && controls != null)
                 controls.update(delta);
 
-            if (pathFrames != null) {
+            if (isPlaying && pathFrames != null) {
                 // ensure currentTime is in [0, totalLength]
-                currentTime = clock.getElapsedTime() * 1000;
+                //currentTime = clock.getElapsedTime() * 1000;
+                currentTime += delta * 1000;
                 while (currentTime > totalLength)
                     currentTime -= totalLength;
 

@@ -10,11 +10,11 @@ using namespace std;
 
 struct jsonBase
 {
-	virtual string toString() const = 0;
-	virtual ostream &serialize(ostream &os) const = 0;
+	virtual wstring toString() const = 0;
+	virtual wostream &serialize(wostream &os) const = 0;
 };
 
-ostream &operator <<(ostream &os, jsonBase const &j)
+wostream &operator <<(wostream &os, jsonBase const &j)
 {
 	return j.serialize(os);
 }
@@ -22,46 +22,46 @@ ostream &operator <<(ostream &os, jsonBase const &j)
 template <typename T> struct jsonProperty
 	: jsonBase
 {
-	string name;
+	wstring name;
 	T val;
 
-	jsonProperty(string propertyName, T const& val)
+	jsonProperty(wstring propertyName, T const& val)
 		: name(propertyName)
 		, val(val)
 	{}
 
-	string toString() const
+	wstring toString() const
 	{
-		stringstream ss;
+		wstringstream ss;
 		ss << '\"' << name << "\" : " << val;
 		return ss.str();
 	}
 
-	virtual ostream &serialize(ostream &os) const
+	virtual wostream &serialize(wostream &os) const
 	{
 		os << toString();
 		return os;
 	}
 };
 
-template<> struct jsonProperty<string> : jsonBase
+template<> struct jsonProperty<wstring> : jsonBase
 {
-	string name;
-	string val;
+	wstring name;
+	wstring val;
 
-	jsonProperty(string propertyName, string const& val)
+	jsonProperty(wstring propertyName, wstring const& val)
 		: name(propertyName)
 		, val(val)
 	{}
 
-	string toString() const
+	wstring toString() const
 	{
-		stringstream ss;
+		wstringstream ss;
 		ss << '\"' << name << "\" : \"" << val << '\"';
 		return ss.str();
 	}
 
-	virtual ostream &serialize(ostream &os) const
+	virtual wostream &serialize(wostream &os) const
 	{
 		os << toString();
 		return os;
@@ -70,13 +70,13 @@ template<> struct jsonProperty<string> : jsonBase
 
 struct jsonObject : jsonBase
 {
-	string name;
+	wstring name;
 	list<shared_ptr<jsonBase>> properties;
 
 	jsonObject()
 	{}
 
-	jsonObject(string name)
+	jsonObject(wstring name)
 		: name(name)
 	{}
 
@@ -104,14 +104,14 @@ struct jsonObject : jsonBase
 	}
 
 	template <typename T>
-	void addProperty(string name, T const& val)
+	void addProperty(wstring name, T const& val)
 	{
 		properties.push_back(shared_ptr<jsonBase>(new jsonProperty<T>(name, val)));
 	}
 
-	string toString() const
+	wstring toString() const
 	{
-		stringstream ss;
+		wstringstream ss;
 		ss << "{" << endl;
 		if (!properties.empty())
 		{
@@ -126,7 +126,7 @@ struct jsonObject : jsonBase
 		return ss.str();
 	}
 
-	virtual ostream &serialize(ostream &os) const
+	virtual wostream &serialize(wostream &os) const
 	{
 		os << toString();
 		return os;
@@ -172,9 +172,9 @@ struct jsonArray : jsonBase
 		values.push_back(val3);
 	}
 
-	string toString() const
+	wstring toString() const
 	{
-		stringstream ss;
+		wstringstream ss;
 		ss << "[";
 		if (!values.empty())
 		{
@@ -189,7 +189,7 @@ struct jsonArray : jsonBase
 		return ss.str();
 	}
 
-	virtual ostream &serialize(ostream &os) const
+	virtual wostream &serialize(wostream &os) const
 	{
 		os << toString();
 		return os;

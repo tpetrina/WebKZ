@@ -151,7 +151,13 @@ Mesh.prototype.createMesh = function (texture) {
 }
 
 function add_map_to_scene(map) {
-	textures = [];
+    if (meshes != null && meshes != undefined)
+    {
+        for (var index in meshes)
+            scene.remove(meshes[index].mesh);
+    }
+
+    textures = [];
 	meshes = [];
 	vertex_assoc = [];
 

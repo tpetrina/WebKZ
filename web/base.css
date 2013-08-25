@@ -1,32 +1,93 @@
 ﻿* {
     margin: 0;
     padding: 0;
+    font-family: 'Open Sans', sans-serif;
 }
 
-#header
-{
-	padding: 5px 10px 7px 10px;
-	position: fixed;
-	top: 0px;
-	left: 0px;
-	background: black;
-	color: rgb(2, 153, 255);
-	box-shadow: -1px 3px 5px rgb(33, 33, 33);
+body {
+    overflow: hidden;
 }
 
-#backlink
-{
-	margin: 10px 20px 10px 0px;
-	color: #ED1B24;
-	text-decoration: none;
+#header {
+    padding: 5px 10px 7px 10px;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    background: black;
+    color: rgb(2, 153, 255);
+    box-shadow: -1px 3px 5px rgb(33, 33, 33);
 }
-#backlink:hover
-{
-	text-decoration: underline;
-	color: white;
+
+#change {
+    color: white;
 }
-#backlink:visited
-{
-	text-decoration: none;
-	color: #ED1B24;
+
+    #change:visited,
+    #change:hover {
+        color: rgb(2, 153, 255);
+        text-decoration: underline;
+    }
+
+#sidebar {
+    display: none;
 }
+
+
+#backlink {
+    margin: 10px 20px 10px 0px;
+    color: #ED1B24;
+    text-decoration: none;
+}
+
+    #backlink:hover {
+        text-decoration: underline;
+        color: white;
+    }
+
+    #backlink:visited {
+        text-decoration: none;
+        color: #ED1B24;
+    }
+
+.button {
+    background-color: #333;
+    padding: 3px 6px;
+    margin-top: 3px;
+}
+
+#overlay {
+    visibility: hidden;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    z-index: 1000;
+    background-color: rgba(30, 30, 30, 0.6);
+    color: #f0f0f0;
+}
+
+    #overlay div {
+        width: 300px;
+        margin: 100px auto;
+        background-color: #333;
+        border: 1px solid #000;
+        padding: 15px;
+        text-align: center;
+    }
+
+    #overlay p {
+        padding: 5px 10px;
+        font-size: 30px;
+        background-color: rgb(2, 153, 255);
+        opacity: 1;
+    }
+
+    #overlay ul {
+        list-style-type: none;
+    }
+
+        #overlay ul li:hover {
+            background-color: #ED1B24;
+        }

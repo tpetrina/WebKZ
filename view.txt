@@ -1,0 +1,10 @@
+
+
+			var theta = (pathFrames[frameIndex].orientation[1] - 90) / 57.295800000006835;
+			var ro = (-pathFrames[frameIndex].orientation[2] - 90) / 57.295800000006835;
+
+            vLookAt3.add(vLookAt3, new THREE.Vector3(
+                -Math.sin(theta) * Math.cos(ro),
+                Math.cos(theta) * Math.cos(ro),
+				Math.sin(theta)
+				));
